@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <title>Registro OpenHouse</title>
+  <title>Registro Arkano</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
