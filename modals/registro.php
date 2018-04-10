@@ -22,7 +22,7 @@
  		echo json_encode($response);
 		die();
 	}
-	$sql = "INSERT INTO personas (nombre, apellido, email, empresa, asistencia) VALUES ('$name', '$surname', '$mail', '$empresa', 1)";
+	$sql = "INSERT INTO user_ (user_name, user_surname, user_email, user_company, user_birthdate) VALUES ('$name', '$surname', '$mail', '$empresa', NULL)";
 	$result = mysqli_query($conn, $sql);
 	if ($result) {
 		$response['status'] = true;
