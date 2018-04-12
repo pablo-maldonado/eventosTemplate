@@ -51,7 +51,12 @@ $result = mysqli_query($conn, $sql);
           ?>
         <tr id="tr-<?= $row["events_id"];?>">
           <td><?= $row["events_id"];?></td>
-          <td><?= $row["events_name"];?></td>
+          <form action="modals/user.php" method="post">
+            <input type="hidden" name="events_id" value="<?= $row["events_id"];?>" />
+            <td>
+              <button type="submit"><?= $row["events_name"];?></button>
+            </td>
+          </form>
           <td>
             <form class="w3-container formDelete" id="formDelete-<?= $row["events_id"];?>" method="post" action="modals/deleteEvent.php">
               <input type="hidden" name="events_id" value="<?= $row["events_id"];?>">
