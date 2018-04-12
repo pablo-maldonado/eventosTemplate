@@ -1,7 +1,21 @@
 #registroID{
-	font-family: 'Roboto', sans-serif;	
+	font-family: 'Roboto', sans-serif;
 	font-size: 35px;
 }
-#registroDiv{
-
+.card{
+	border: 0px solid rgba(0,0,0,.125);
+	transition: 0.9s;
 }
+.card:hover {
+  transform: scale(1.05,1.05);
+}
+
+.bodyCard{
+	display: none;
+}
+
+/* @media (min-width: 576px){
+	.cardPadding{
+		max-width: 33.333333%;
+	}
+} */
