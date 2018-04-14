@@ -107,7 +107,7 @@ function delete_event(e){
               showConfirmButton: false,
               timer: 2400
             })
-          setTimeout($('#card-'+id).remove(), 3000);
+          $('#card-'+id).remove();
         }
       },
       //Y error se ejecuta cuando no sale bien (lo contrario a succes xd)
