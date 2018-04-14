@@ -1,5 +1,6 @@
 <?php
 	REQUIRE("conexion.php");
+	header("Content-Type: text/html;charset=utf-8");
 	$event_name = $_POST["event_name"];
 
 	$response =array('status'=>false, 'message'=>"No se ha podido agregar el evento", 'events_id' => -1);

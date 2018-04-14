@@ -9,31 +9,54 @@ function register_event(e){
       success: function(response){
       $('#message').html(response.message);
       if (response.status) {
-        // $('#myTable tr:last').after('<tr>...</tr><tr>...</tr>');
         var event_name = $('#event_name').val();
         var event_id = response.events_id;
+
+        //Show the SweetAlert
         swal({
-          position: 'top-end',
+          position: 'center',
           type: 'success',
           title: 'Se registró el evento ' + event_name + ' correctamente',
           showConfirmButton: false,
-          timer: 2000
+          timer: 2400
         })
 
-        $('#mainTable').append(
-            '<tr id= tr-' + event_id + '>'+
-              '<td>' + event_id +
-              '<td>' + event_name + '</td>' +
-              '<td>' +
-                    '<form class="w3-container formDelete" id="formDelete-' + event_id + '" method="post" action="modals/deleteEvent.php">' +
-                      '<input type="hidden" id="events_id" name="events_id" value="cosoReLoco">' +
-                      '<button type="submit" class="w3-btn w3-red btnDelete" id="btnDelete-' + event_id + '">Eliminar</button>' +
-                    '</form>' +
-               '</td>' +
-            '</tr>'
-          );
+        //Prepare the Card with data to create a new Event
+        var createCard = '<div class="card d-inline-block col-xs-10 col-sm-6 col-md-4 mb-5 card-add" id="card-' + event_id + '">' +
+          '<div class="imgTxtCard" id="imgTxtCard-' + event_id + '">' +
+            '<img class="card-img-top" src="https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350" alt="Card image cap">' +
+            '<div class="card-body">' +
+              '<h5 class="card-title">'+ event_name +'</h5>' +
+              '<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card´s content. (Descripción del evento)</p>' +
+            '</div>' +
+          '</div>' +
+          '<ul class="list-group list-group-flush">' +
+            '<li class="list-group-item"><i class="far fa-calendar-alt"></i> Fecha del Evento</li>' +
+            '<li class="list-group-item"><i class="fas fa-user"></i> Cantidad de personas que asisitieron</li>' +
+            '<li class="list-group-item"><i class="fas fa-map-marker-alt"></i> Lugar de realización</li>' +
+          '</ul>' +
+          '<div class="bodyCard" id="bodyCard-' + event_id + '">' +
+            '<div class="card-body">' +
+              '<button type="button" class="btn btn-success float-right float-bottom ml-4 mb-4"><i class="fas fa-file-excel"></i> Excel</i></button>' +
+              '<form class="w3-container formDelete" id="formDelete-' + event_id + '" method="post" action="modals/deleteEvent.php">' +
+                '<input type="hidden" name="events_id" value="' + event_id + '">' +
+                '<button type="submit" id="btnDelete-' + event_id + '" class="btn btn-danger float-right float-bottom mb-3 btnDelete"><i class="fas fa-trash-alt"></i> Borrar evento</button>' +
+              '</form>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+
+        //Put the Card in HTML
+        $('.row').prepend(createCard);
+
+        //Wait 100 milliseconds to execute the effect to show the new card
+        setTimeout(function(){
+          $( '#card-' +event_id ).removeClass("card-add");
+        }, 100);
+
+        //Reset the values inside the form
         $('#event_name').val('');
-        $("#formDelete-"+event_id).find('#events_id').val(event_id);
+        // $("#formDelete-"+event_id).find('#events_id').val(event_id); -- I don't remember this line, and i think is unnecessary
       }
       },
       error: function (response){
@@ -43,7 +66,7 @@ function register_event(e){
     });
 }
 
-//Ejemplo sobre borrado de tupla de BBDD en PHP (?
+//Delete event
 function delete_event(e){
   // e.preventDefault lo que hace es frenar todo lo que se iba a hacer por defecto en la página
   // (en este caso iba a ir a la página "deleteEvent.php")
@@ -51,18 +74,7 @@ function delete_event(e){
     //Pongo en la variable id los datos de la id que voy a borrar
     var id = $(this).attr('id').replace('btnDelete-', '');
 
-    //Igaulo la variable form al formulario
-    //DATO IMPORTANTE, el ".parent" lo que hace es ir al atributo anteriror dentro de la jerarquía html
-    //Ejemplo:
-    /*
-    <div id="soyElPadre">
-      <div id="xd">
-        <p>Hola wuapo</p>
-      </div>
-    </div>
-    */
-    //el ".parent" de p sería el div "xd"
-    //y el ".parent" del div "xd" sería el div "soyElPadre"
+    //Data from form (this = button) => (this.parent = form)
     var form =$(this).parent();
 
     //Igualo a la variable action el action del form, en este caso "modals/deleteEvent.php"
@@ -83,10 +95,19 @@ function delete_event(e){
       success: function(response){
         //Si el atributo status de response es true ejecuto
         if (response.status) {
-          //en el span con id "message" pongo el mensaje que paso del array
-          $('#message').html(response.message);
-          $('#card-'+id).remove();
-          console.log(response);
+
+          // setTimeout(function(){
+            $( '#card-' + id ).addClass("card-add");
+          // }, 100);
+          //Show the SweetAlert
+            swal({
+              position: 'center',
+              type: 'warning',
+              title: 'Se eliminó el evento ' + response.event_name + ' correctamente',
+              showConfirmButton: false,
+              timer: 2400
+            })
+          setTimeout($('#card-'+id).remove(), 3000);
         }
       },
       //Y error se ejecuta cuando no sale bien (lo contrario a succes xd)

@@ -1,5 +1,6 @@
 <?php
   REQUIRE("conexion.php");
+  header("Content-Type: text/html;charset=utf-8");
   $events_id=$_POST['events_id'];
  ?>
 

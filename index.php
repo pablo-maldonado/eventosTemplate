@@ -1,9 +1,9 @@
 <?php
 //Connect the database
 REQUIRE("modals/conexion.php");
-
+header("Content-Type: text/html;charset=utf-8");
 //Prepare the consult
-$sql = "SELECT * FROM events_";
+$sql = "SELECT * FROM events_ ORDER BY events_id DESC";
 
 //Execute the consult
 $result = mysqli_query($conn, $sql);
@@ -14,6 +14,10 @@ $result = mysqli_query($conn, $sql);
     <meta charset="utf-8">
     <title>Eventos - Arkano</title>
     <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+
+    <!-- Meta to inform Chrome about language page -->
+    <meta http-equiv="Content-Language" content="es">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap cdn -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -44,7 +48,7 @@ $result = mysqli_query($conn, $sql);
         }
       );
 
-      $(document).on('click', '#alertTest', swal);
+      // $(document).on('click', '#alertTest', swal);
 
     </script>
 
@@ -57,6 +61,7 @@ $result = mysqli_query($conn, $sql);
       <button type="submit">Buscar</button>
     </form> -->
     <h1 class="text-center">Eventos - Arkano</h1>
+    <button onclick="notifyMe()">Notify me!</button>
     <!-- From to register events -->
     <form class="w3-container" id="formRegister" method="post" action="modals/registerEvent.php">
       <label>Nombre</label>
@@ -143,5 +148,6 @@ $result = mysqli_query($conn, $sql);
         ?>
       </tbody>
     </table>
+    <script src="http://localhost:35729/livereload.js"></script>
   </body>
 </html>

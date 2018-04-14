@@ -1,5 +1,6 @@
 <?php
 	REQUIRE("conexion.php");
+	header("Content-Type: text/html;charset=utf-8");
 	$name = $_POST["nombre"];
 	$surname = $_POST["apellido"];
 	$mail = $_POST["email"];
@@ -41,7 +42,7 @@
 		$response['status'] = true;
 		$response['message'] = "Se ha registrado a $name $surname correctamente.";
 	}
-	
+
 
 
 
