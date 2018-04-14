@@ -42,9 +42,6 @@
 		$response['status'] = true;
 		$response['message'] = "Se ha registrado a $name $surname correctamente.";
 	}
-
-
-
-
+	
  	echo json_encode($response);
 	die();

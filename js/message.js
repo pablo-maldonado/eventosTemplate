@@ -21,22 +21,36 @@ function register_event(e){
           timer: 2400
         })
 
+        var event_description = $("#event_description").val();
+        var event_date = $("#event_date").val();
+        var event_address = $("#event_address").val();
+        var event_photo = $("#event_event_photo").val();
+
+        if (event_description == "") {
+          event_description = 'El evento ' + event_name + ' se realizará el ' + event_date;
+        }
+
         //Prepare the Card with data to create a new Event
         var createCard = '<div class="card d-inline-block col-xs-10 col-sm-6 col-md-4 mb-5 card-add" id="card-' + event_id + '">' +
           '<div class="imgTxtCard" id="imgTxtCard-' + event_id + '">' +
             '<img class="card-img-top" src="https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350" alt="Card image cap">' +
             '<div class="card-body">' +
               '<h5 class="card-title">'+ event_name +'</h5>' +
-              '<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card´s content. (Descripción del evento)</p>' +
+              '<p class="card-text">' + event_description + '</p>' +
             '</div>' +
           '</div>' +
           '<ul class="list-group list-group-flush">' +
-            '<li class="list-group-item"><i class="far fa-calendar-alt"></i> Fecha del Evento</li>' +
+            '<li class="list-group-item"><i class="far fa-calendar-alt"></i> ' + event_date + '</li>' +
             '<li class="list-group-item"><i class="fas fa-user"></i> Cantidad de personas que asisitieron</li>' +
             '<li class="list-group-item"><i class="fas fa-map-marker-alt"></i> Lugar de realización</li>' +
           '</ul>' +
           '<div class="bodyCard" id="bodyCard-' + event_id + '">' +
             '<div class="card-body">' +
+            '<form class="w3-container formDelete" id="formGoEvent-' + event_id+ '" method="post" action="modals/user.php">' +
+              '<input type="hidden" name="events_id" value="' + event_id + '">' +
+              '<button type="submit" class="btn btn-primary ml-4 float-right float-bottom mb-3"><i class="fas fa-arrow-right"></i></button>' +
+            '</form>' +
+
               '<button type="button" class="btn btn-success float-right float-bottom ml-4 mb-4"><i class="fas fa-file-excel"></i> Excel</i></button>' +
               '<form class="w3-container formDelete" id="formDelete-' + event_id + '" method="post" action="modals/deleteEvent.php">' +
                 '<input type="hidden" name="events_id" value="' + event_id + '">' +
@@ -116,4 +130,43 @@ function delete_event(e){
       }
 
     });
+}
+
+function trySwalForm() {
+  swal.setDefaults({
+  input: 'text',
+  confirmButtonText: 'Next &rarr;',
+  showCancelButton: true,
+  progressSteps: ['1', '2', '3']
+  })
+
+  var steps = [
+    {
+      title: '¿Nombre del evento? &#x1F914',
+      text: '¿Cuál será el nombre del evento?'
+    },
+    {
+      title: 'Question 2',
+      text: 'To swal3'
+    },
+    'Question 3'
+  ]
+
+  swal.queue(steps).then((result) => {
+    swal.resetDefaults()
+
+      if (result.value != '') {
+        swal({
+          title: 'All done!',
+          html:
+            'Your answers: <pre>' +
+              JSON.stringify(result.value) +
+            '</pre>',
+          confirmButtonText: 'Lovely!'
+        })
+      }else {
+        alert('Está null la wea')
+      }
+    }
+  )
 }
