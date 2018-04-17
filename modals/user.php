@@ -1,6 +1,6 @@
 <?php
   REQUIRE("conexion.php");
-  $events_id=$_POST['events_id'];
+  // $events_id=$_POST['events_id'];
  ?>
 
 <!DOCTYPE html>
@@ -13,6 +13,10 @@
   <link rel="stylesheet" href="../css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="../sweetalert2.all.min.js"></script>
+
+  <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+  <script src="https://unpkg.com/promise-polyfill@7.1.0/dist/promise.min.js"></script>
   <script type="text/javascript">
   	$(document).ready(function(){
   		$('#btnRegistro').on('click', registrar);
@@ -41,12 +45,14 @@
   </script>
 
   </head>
-  <body >
-<div class="w3-container" style="background-image:url(../img/Capture.png)" >
+  <body style="background-image:url(../img/arkano_fondo_chiquito.png)">
 
-      </div>
+
+
+
       <div class="w3-content" style="max-width: 750px;margin-top: 90px;">
-        <form class="w3-container w3-card-4 w3-light-grey w3-text-green w3-margin" id="formRegistro" method="post" action="registro.php">
+
+        <form class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin" id="formRegistro" method="post" action="registro.php" >
       <h2 class="w3-center">Registro Arkano</h2>
 
         <div class="w3-row w3-section">
@@ -79,15 +85,16 @@
 
       <p>
       <label style="padding-bottm:5px;">Fecha de nacimiento</label>
-      <input class="w3-input w3-border" name="birthdate" type="date" value="2000-01-01"></p>
+      <input class="w3-input w3-border" name="birthdate" type="date" value="2000-01-01" max="2017-12-31"></p>
       <input type="hidden" name="events_id" value="<?= $events_id;?>">
 
-      <button type="submit" class="w3-button w3-block w3-section w3-green w3-ripple w3-padding" id="btnRegistro" style="margin-bottom : 5px;">Registrar</button>
-      <span class="message" id="message" style="margin-bottom : 5px;"></span>
+      <button type="submit" class="w3-btn w3-block w3-section w3-blue w3-ripple w3-padding" id="btnRegistro" style="margin-bottom : 5px;" onclick="completo()">Registrar</button>
+
     </form>
 
+
+  <img src="../img/logoArkanoBlanco.png" style="max-width: 20%;  height: auto;  position: absolute;    bottom: 8px;    left: 16px; z-index:-1 ;">
+
 </div>
-
-
   </body>
 </html>
