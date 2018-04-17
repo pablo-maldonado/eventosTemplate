@@ -1,6 +1,11 @@
 <?php
   REQUIRE("conexion.php");
+<<<<<<< HEAD
   // $events_id=$_POST['events_id'];
+=======
+  header("Content-Type: text/html;charset=utf-8");
+  $events_id=$_POST['events_id'];
+>>>>>>> d9951ce16425dd8d50bbc846c2ddbd41923b7e4d
  ?>
 
 <!DOCTYPE html>

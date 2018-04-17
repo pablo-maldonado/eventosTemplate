@@ -4,7 +4,7 @@
 }
 .card{
 	border: 0px solid rgba(0,0,0,.125);
-	transition: 0.9s;
+	transition: 0.7s;
 }
 .card:hover {
   transform: scale(1.05,1.05);
@@ -13,7 +13,15 @@
 .bodyCard{
 	display: none;
 }
+.card-add{
+	transform: scale(0);
+	/* transition: 0.8s; */
+}
 
+.button_padding_border{
+	padding-top: 1rem;
+	border-top: 1px solid #e9ecef;
+}
 /* @media (min-width: 576px){
 	.cardPadding{
 		max-width: 33.333333%;
