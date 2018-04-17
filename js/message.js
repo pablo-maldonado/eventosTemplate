@@ -94,79 +94,118 @@ function delete_event(e){
     //Igualo a la variable action el action del form, en este caso "modals/deleteEvent.php"
     var action = form.attr('action');
 
-    //Inicio el ajax
-    $.ajax({
-      //Url es hacia donde es que ejecuta la consulta
-      url: action,
-      //Método el método (POST o GET)
-      method: 'POST',
-      //Data es la información que vos le vas a pasar
-      data: form.serialize(),
-      //dataType el tipo de dato que vas a recibir
-      dataType: "json",
-      //succes se ejecuta si todo sale bien, entonces si todo sale bien ejecuto esa función que hice
-      //Y response es la variable que yo mando desde PHP (deleteEvent.php)
-      success: function(response){
-        //Si el atributo status de response es true ejecuto
-        if (response.status) {
+    swal({
+      title: '¿Segurisimo que deseas eliminar este evento y todos sus datos? &#x1F625',
+      text: "Chan chan chaann...!",
+      type: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'No, mejor no &#x1F600',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, hagámoslo &#x1F631'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          url: action,
+          method: 'POST',
+          data: form.serialize(),
+          dataType: "json",
 
-          // setTimeout(function(){
-            $( '#card-' + id ).addClass("card-add");
-          // }, 100);
-          //Show the SweetAlert
-            swal({
-              position: 'center',
-              type: 'warning',
-              title: 'Se eliminó el evento ' + response.event_name + ' correctamente',
-              showConfirmButton: false,
-              timer: 2400
-            })
-          $('#card-'+id).remove();
-        }
-      },
-      //Y error se ejecuta cuando no sale bien (lo contrario a succes xd)
-      error: function (response){
-        console.log(response);
+          success: function(response){
+
+            if (response.status) {
+                $( '#card-' + id ).addClass("card-add");
+                swal({
+                  position: 'center',
+                  type: 'warning',
+                  title: 'Se eliminó el evento ' + response.event_name + ' correctamente',
+                  showConfirmButton: false,
+                  timer: 2400
+                })
+              $('#card-'+id).remove();
+            }else {
+              swal({
+                type:'error',
+                title:'Hubo un problema &#x1F61E',
+                text:'El evento no se ha podido eliminar.',
+                footer: '<a href="#" onclick="informationDeleteEvent()">¿Por qué puede ser que me de error?</a>',
+              })
+            }
+          },
+          error: function (response){
+            console.log(response);
+          }
+
+        });
       }
+    })
 
-    });
+
 }
 
 function trySwalForm() {
-  swal.setDefaults({
-  input: 'text',
-  confirmButtonText: 'Next &rarr;',
-  showCancelButton: true,
-  progressSteps: ['1', '2', '3']
-  })
 
-  var steps = [
-    {
-      title: '¿Nombre del evento? &#x1F914',
-      text: '¿Cuál será el nombre del evento?'
+  swal({
+    title: 'Multiple inputs',
+    html:
+      '<input id="swal-input1" class="swal2-input">' +
+      '<input id="swal-input2" class="swal2-input">',
+    preConfirm: function () {
+      return new Promise(function (resolve) {
+        resolve([
+          $('#swal-input1').val(),
+          $('#swal-input2').val()
+        ])
+      })
     },
-    {
-      title: 'Question 2',
-      text: 'To swal3'
-    },
-    'Question 3'
-  ]
-
-  swal.queue(steps).then((result) => {
-    swal.resetDefaults()
-
-      if (result.value != '') {
-        swal({
-          title: 'All done!',
-          html:
-            'Your answers: <pre>' +
-              JSON.stringify(result.value) +
-            '</pre>',
-          confirmButtonText: 'Lovely!'
-        })
-      }else {
-        alert('Está null la wea')
-      }
+    onOpen: function () {
+      $('#swal-input1').focus()
     }
-  )
+  }).then(function (result) {
+    swal(JSON.stringify(result))
+  }).catch(swal.noop)
+
+  // swal.setDefaults({
+  // input: 'text',
+  // confirmButtonText: 'Next &rarr;',
+  // showCancelButton: true,
+  // progressSteps: ['1', '2', '3'],
+  // preConfirm: (text) => {
+  //   return new Promise((resolve) => {
+  //     if (text === '') {
+  //       alert('No hay nada.')
+  //     }
+  //     resolve()
+  //   })
+  // }
+  // })
+  //
+  // var steps = [
+  //   {
+  //     title: '¿Nombre del evento? &#x1F914',
+  //     text: '¿Cuál será el nombre del evento?'
+  //   },
+  //   {
+  //     title: 'Question 2',
+  //     text: 'To swal3'
+  //   },
+  //   'Question 3'
+  // ]
+  // swal.queue(steps).then((result) => {
+  //   swal.resetDefaults()
+  //
+  //     if (result.value != '') {
+  //       swal({
+  //         title: 'All done!',
+  //         html:
+  //           'Your answers: <pre>' +
+  //             JSON.stringify(result.value) +
+  //           '</pre>',
+  //         confirmButtonText: 'Lovely!'
+  //       })
+  //     }else {
+  //       alert('Está null la wea')
+  //     }
+  //   }
+  // )
 }
