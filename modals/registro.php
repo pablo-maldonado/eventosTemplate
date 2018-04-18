@@ -20,7 +20,7 @@
  		echo json_encode($response);
 		die();
 	}
-	if (empty($mail)) {
+	if (empty($mail) or !strpos($mail, '@')) {
 		$response['message'] = 'Debes ingresar mail';
  		echo json_encode($response);
 		die();
@@ -42,6 +42,13 @@
 		$response['status'] = true;
 		$response['message'] = "Se ha registrado a $name $surname correctamente.";
 	}
+<<<<<<< HEAD
+
+
+
+
+=======
 	
+>>>>>>> d9951ce16425dd8d50bbc846c2ddbd41923b7e4d
  	echo json_encode($response);
 	die();
