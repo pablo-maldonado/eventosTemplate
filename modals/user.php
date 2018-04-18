@@ -1,11 +1,9 @@
 <?php
   REQUIRE("conexion.php");
-<<<<<<< HEAD
-  // $events_id=$_POST['events_id'];
-=======
-  header("Content-Type: text/html;charset=utf-8");
+
   $events_id=$_POST['events_id'];
->>>>>>> d9951ce16425dd8d50bbc846c2ddbd41923b7e4d
+
+
  ?>
 
 <!DOCTYPE html>
@@ -18,10 +16,11 @@
   <link rel="stylesheet" href="../css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="../sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2"></script>
+  <script src="../js/message.js"></script>
 
-  <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
-  <script src="https://unpkg.com/promise-polyfill@7.1.0/dist/promise.min.js"></script>
+  <script src="../js/stylesJS.js"></script>
+
   <script type="text/javascript">
   	$(document).ready(function(){
   		$('#btnRegistro').on('click', registrar);
@@ -37,10 +36,17 @@
   			dataType: "json",
   			success: function(response){
 				$('#message').html(response.message);
+
 				if (response.status) {
 					$('form input').val('');
+          $('#events_id').val(response.events_id);
   				}
+
+
+        }
+
   			},
+
   			error: function (response){
   				console.log(response);
   			}
@@ -91,10 +97,11 @@
       <p>
       <label style="padding-bottm:5px;">Fecha de nacimiento</label>
       <input class="w3-input w3-border" name="birthdate" type="date" value="2000-01-01" max="2017-12-31"></p>
-      <input type="hidden" name="events_id" value="<?= $events_id;?>">
+      <input id="events_id" type="text" name="events_id" value="<?= ["events_id"];?>">
 
-      <button type="submit" class="w3-btn w3-block w3-section w3-blue w3-ripple w3-padding" id="btnRegistro" style="margin-bottom : 5px;" onclick="completo()">Registrar</button>
+      <button type="submit" class="w3-btn w3-block w3-section w3-blue w3-ripple w3-padding" id="btnRegistro" style="margin-bottom : 5px;">Registrar</button>
 
+      <span class="message" id="message"></span>
     </form>
 
 
