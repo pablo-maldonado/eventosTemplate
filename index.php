@@ -4,7 +4,7 @@ REQUIRE("modals/conexion.php");
 header("Content-Type: text/html;charset=utf-8");
 //Prepare the consult
 $sql = "SELECT events_id, events_name, events_description, date_format (events_date,'%d-%m-%Y'), events_addres, events_photo from events_ ORDER BY events_id DESC";
-
+$qntPerson = 0;
 //Execute the consult
 $result = mysqli_query($conn, $sql);
 ?>
@@ -34,6 +34,7 @@ $result = mysqli_query($conn, $sql);
     <!-- SweetAlert cdn -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 
     <!-- Link to js (message) -->
     <script src="js/message.js"></script>
@@ -105,8 +106,20 @@ $result = mysqli_query($conn, $sql);
                 </div>
         			  <ul class="list-group list-group-flush">
         			    <li class="list-group-item"><i class="far fa-calendar-alt mr-1"></i><?= $row["date_format (events_date,'%d-%m-%Y')"];?></li>
-        			    <li class="list-group-item"><i class="fas fa-user"></i> Cantidad de personas que asisitieron</li>
-        			    <li class="list-group-item"><i class="fas fa-map-marker-alt"></i> Lugar de realización</li>
+                  <?php
+                    // $row_personQnt = 0
+                    $events_id = $row['events_id'];
+                    $sqlQnt = "SELECT COUNT(user_email) FROM user_event WHERE events_id = $events_id";
+                    $resultQnt = mysqli_query($conn, $sqlQnt);
+                    $row_personQnt = $resultQnt->num_rows;
+                    while ($rowQnt = mysqli_fetch_array($resultQnt)) {
+                          $qntPerson = $rowQnt[0];
+                    }
+
+                    ?>
+
+        			    <li class="list-group-item"><i class="fas fa-user"></i> <?=$qntPerson ?> personas asisitieron al evento</li>
+        			    <li class="list-group-item"><i class="fas fa-map-marker-alt mr-1"></i> <?=$row["events_addres"]?></li>
         			  </ul>
                 <div class="bodyCard" id="bodyCard-<?= $row["events_id"];?>">
                   <div class="card-body">
@@ -118,6 +131,7 @@ $result = mysqli_query($conn, $sql);
 
                     <form class="w3-container formDelete" id="formDelete-<?= $row["events_id"];?>" method="post" action="modals/deleteEvent.php">
                       <input type="hidden" name="events_id" value="<?= $row["events_id"];?>">
+                      <input type="hidden" name="force_event" value="0">
                       <button type="submit" id="btnDelete-<?= $row["events_id"];?>" class="btn btn-danger float-right float-bottom mb-3 btnDelete"><i class="fas fa-trash-alt"></i> Borrar evento</button>
                     </form>
 
@@ -158,6 +172,7 @@ $result = mysqli_query($conn, $sql);
             </div>
             <div class="form-group">
               <label for="lbl_addres">Dirección</label>
+              <!-- <div id="googleMap" style="width:100%;height:400px;"></div> -->
               <input class="form-control" id="event_addres" name="event_addres" type="text" placeholder="Address">
             </div>
             <div class="form-group">
@@ -179,6 +194,18 @@ $result = mysqli_query($conn, $sql);
       </div>
     </div>
   </div>
+
+    <!-- <script>
+      function myMap() {
+      var mapProp= {
+        center:new google.maps.LatLng(-34.8948770197085,-56.1487440197085),
+        zoom:12,
+      };
+      var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+      }
+    </script> -->
+
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWpmAbOVY_rcoj8AWjDnd27k6Cn-fLXq4&callback=myMap"></script> -->
 
     <script src="http://localhost:35729/livereload.js"></script>
     <!-- BORRAR LIVE RELOAD - VER URGENTE -->

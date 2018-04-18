@@ -21,13 +21,18 @@ function register_event(e){
           timer: 2400
         })
 
+        $('#modal_add_event').modal('hide');
+
         var event_description = $("#event_description").val();
         var event_date = $("#event_date").val();
         var event_address = $("#event_address").val();
         var event_photo = $("#event_event_photo").val();
-
+        var event_addres = $("#event_addres").val();
         if (event_description == "") {
           event_description = 'El evento ' + event_name + ' se realizará el ' + event_date;
+        }
+        if (event_addres == "") {
+          event_addres = 'Lugar desconocido...';
         }
 
         //Prepare the Card with data to create a new Event
@@ -42,7 +47,7 @@ function register_event(e){
           '<ul class="list-group list-group-flush">' +
             '<li class="list-group-item"><i class="far fa-calendar-alt"></i> ' + event_date + '</li>' +
             '<li class="list-group-item"><i class="fas fa-user"></i> Cantidad de personas que asisitieron</li>' +
-            '<li class="list-group-item"><i class="fas fa-map-marker-alt"></i> Lugar de realización</li>' +
+            '<li class="list-group-item"><i class="fas fa-map-marker-alt"></i> ' + event_addres +' </li>' +
           '</ul>' +
           '<div class="bodyCard" id="bodyCard-' + event_id + '">' +
             '<div class="card-body">' +
@@ -54,6 +59,7 @@ function register_event(e){
               '<button type="button" class="btn btn-success float-right float-bottom ml-4 mb-4"><i class="fas fa-file-excel"></i> Excel</i></button>' +
               '<form class="w3-container formDelete" id="formDelete-' + event_id + '" method="post" action="modals/deleteEvent.php">' +
                 '<input type="hidden" name="events_id" value="' + event_id + '">' +
+                '<input type="hidden" name="force_event" value="0">' +
                 '<button type="submit" id="btnDelete-' + event_id + '" class="btn btn-danger float-right float-bottom mb-3 btnDelete"><i class="fas fa-trash-alt"></i> Borrar evento</button>' +
               '</form>' +
             '</div>' +
@@ -93,7 +99,6 @@ function delete_event(e){
 
     //Igualo a la variable action el action del form, en este caso "modals/deleteEvent.php"
     var action = form.attr('action');
-
     swal({
       title: '¿Segurisimo que deseas eliminar este evento y todos sus datos? &#x1F625',
       text: "Chan chan chaann...!",
@@ -128,7 +133,7 @@ function delete_event(e){
                 type:'error',
                 title:'Hubo un problema &#x1F61E',
                 text:'El evento no se ha podido eliminar.',
-                footer: '<a href="#" onclick="informationDeleteEvent()">¿Por qué puede ser que me de error?</a>',
+                footer: '<a href="#" onclick="informationDeleteEvent(' + id +')">¿Por qué puede ser que me de error?</a>',
               })
             }
           },
@@ -143,69 +148,54 @@ function delete_event(e){
 
 }
 
-function trySwalForm() {
+function informationDeleteEvent(id){
+  var event_id = id;
+  var post_to_do = JSON.parse('{ "events_id": '+event_id +', "force_event":1}');
 
   swal({
-    title: 'Multiple inputs',
-    html:
-      '<input id="swal-input1" class="swal2-input">' +
-      '<input id="swal-input2" class="swal2-input">',
-    preConfirm: function () {
-      return new Promise(function (resolve) {
-        resolve([
-          $('#swal-input1').val(),
-          $('#swal-input2').val()
-        ])
-      })
-    },
-    onOpen: function () {
-      $('#swal-input1').focus()
-    }
-  }).then(function (result) {
-    swal(JSON.stringify(result))
-  }).catch(swal.noop)
+    title: 'Probable error...',
+    text: "El error problablemente sea que el evento que desea borrar tenga asociados usuarios que fueron a este evento. Pero usted igual puede forzar la eliminación, tras forzar la eliminación también se borrarán los usuarios asociados a este evento",
+    type: 'warning',
+    showCancelButton: true,
+    cancelButtonText: 'Ok, muchas gracias &#x1F44D',
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Forzar el borrado'
+  }).then((result) => {
+    if (result.value) {
+      console.log(event_id);
+      $.ajax({
+        url: 'modals/deleteEvent.php',
+        method: 'POST',
+        data: post_to_do,
+        dataType: "json",
 
-  // swal.setDefaults({
-  // input: 'text',
-  // confirmButtonText: 'Next &rarr;',
-  // showCancelButton: true,
-  // progressSteps: ['1', '2', '3'],
-  // preConfirm: (text) => {
-  //   return new Promise((resolve) => {
-  //     if (text === '') {
-  //       alert('No hay nada.')
-  //     }
-  //     resolve()
-  //   })
-  // }
-  // })
-  //
-  // var steps = [
-  //   {
-  //     title: '¿Nombre del evento? &#x1F914',
-  //     text: '¿Cuál será el nombre del evento?'
-  //   },
-  //   {
-  //     title: 'Question 2',
-  //     text: 'To swal3'
-  //   },
-  //   'Question 3'
-  // ]
-  // swal.queue(steps).then((result) => {
-  //   swal.resetDefaults()
-  //
-  //     if (result.value != '') {
-  //       swal({
-  //         title: 'All done!',
-  //         html:
-  //           'Your answers: <pre>' +
-  //             JSON.stringify(result.value) +
-  //           '</pre>',
-  //         confirmButtonText: 'Lovely!'
-  //       })
-  //     }else {
-  //       alert('Está null la wea')
-  //     }
-  //   }
-  // )
+        success: function(response){
+
+          if (response.status) {
+              $( '#card-' + id ).addClass("card-add");
+              swal({
+                position: 'center',
+                type: 'warning',
+                title: 'Se eliminó el evento ' + response.event_name + ' correctamente',
+                showConfirmButton: false,
+                timer: 2400
+              })
+            $('#card-'+id).remove();
+          }else {
+            swal({
+              type:'error',
+              title:'Hubo un problema &#x1F61E',
+              text:'El evento no se ha podido eliminar.',
+              footer: '<a href="#" onclick="informationDeleteEvent(' + id +')">¿Por qué puede ser que me de error?</a>',
+            })
+          }
+        },
+        error: function (response){
+          console.log(response);
+        }
+
+      });
+    }
+  })
 }
