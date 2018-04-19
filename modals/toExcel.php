@@ -15,19 +15,26 @@ REQUIRE("conexion.php");
     </head>
   <body>
     <?php
-    $sql = "SELECT * FROM events_";
+    $sql = "SELECT user_.user_name, user_.user_surname, user_.user_email, user_.user_company, events_name FROM user_event INNER JOIN user_ ON user_.user_email = user_event.user_email INNER JOIN events_ ON events_.events_id = user_event.events_id";
     $result = mysqli_query($conn, $sql);
     ?>
     <table border=1 align="center" cellpadding=1 cellspacing=1>
+      <tr style="text-align: center;">
+        Personas registradas en eventos
+      </tr>
       <tr>
-        <td>events_id</td>
-        <td>events_name</td>
+        <td>Nombre y Apellido</td>
+        <td>Mail</td>
+        <td>Empresa</td>
+        <td>Evento al que asistió</td>
       </tr>
         <?php
         while ($row = mysqli_fetch_array($result)) {
         ?>
           <tr>
-            <td><?= $row["events_id"];?></td>
+            <td><?= $row["user_name"] . " " . $row["events_surname"];?></td>
+            <td><?= $row["user_email"];?></td>
+            <td><?= $row["user_company"];?></td>
             <td><?= $row["events_name"];?></td>
           </tr>
         <?php
