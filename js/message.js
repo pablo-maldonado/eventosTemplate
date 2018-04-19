@@ -202,6 +202,7 @@ function informationDeleteEvent(id){
 
 // START PART TO USERS
 function registrer_user(e){
+
   e.preventDefault();
   var action =  $(this).parent().attr('action');
   $.ajax({
@@ -215,6 +216,22 @@ function registrer_user(e){
       if (response.status) {
         $('form input').val('');
         $('#events_id').val(response.events_id);
+        swal({
+          type: 'success',
+          title: 'Iupi!',
+          text: response.message,
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+      else {
+        swal({
+          type: 'error',
+          title: 'Error!',
+          text: response.message,
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
     },
     error: function (response){
