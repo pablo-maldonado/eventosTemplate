@@ -29,9 +29,7 @@ function register_event(e){
         var event_address = $("#event_address").val();
         var event_photo = $("#event_event_photo").val();
         var event_addres = $("#event_addres").val();
-        if (event_description == "") {
-          event_description = 'El evento ' + event_name + ' se realizará el ' + event_date;
-        }
+        var event_description = response.events_description;
         if (event_addres == "") {
           event_addres = 'Lugar desconocido...';
         }

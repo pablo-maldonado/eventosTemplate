@@ -7,7 +7,9 @@
 	$event_photo = $_POST["event_photo"];
 	$event_description = $_POST["event_description"];
 
-	$response =array('status'=>false, 'message'=>"No se ha podido agregar el evento", 'events_id' => -1);
+	$prueba_date = date_parse($event_date);
+
+	$response =array('status'=>false, 'message'=>"No se ha podido agregar el evento", 'events_id' => -1, 'events_description'=>"Sin descripción");
 
 	if (empty($event_name)) {
 		$response['message'] = 'Debes ingresar el nombre del evento';
@@ -20,7 +22,7 @@
 		die();
   }
 	if (empty($event_description)) {
-		$event_description = 'El evento ' . $event_name . " se realizará el " . $event_date;
+		$event_description = 'El evento ' . $event_name . " se realizará el " . $prueba_date["day"] . "-" . $prueba_date["month"]. "-" . $prueba_date["year"];
 	}
 	if (empty($event_addres)) {
 		$event_addres = 'Lugar desconocido...';
@@ -39,8 +41,8 @@
 		$response['status'] = true;
 		$response['message'] = "Se ha registrado el evento $event_name correctamente";
 		$response['events_id'] = $events_id;
+		$response['events_description'] = $event_description;
 	}
-
 
  	echo json_encode($response);
 	die();
