@@ -25,7 +25,7 @@ function register_event(e){
         $('#modal_add_event').modal('hide');
 
         var event_description = $("#event_description").val();
-        var event_date = $("#event_date").val();
+        var event_date = $("#event_date").val().split("-");
         var event_address = $("#event_address").val();
         var event_photo = $("#event_event_photo").val();
         var event_addres = $("#event_addres").val();
@@ -37,16 +37,16 @@ function register_event(e){
         //Prepare the Card with data to create a new Event
         var createCard = '<div class="card d-inline-block col-xs-10 col-sm-6 col-md-4 mb-5 card-add" id="card-' + event_id + '">' +
           '<div class="imgTxtCard" id="imgTxtCard-' + event_id + '">' +
-            '<img class="card-img-top" src="https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350" alt="Card image cap">' +
+            '<img class="card-img-top" src="' + response.events_photo + '" alt="Card image cap">' +
             '<div class="card-body">' +
               '<h5 class="card-title">'+ event_name +'</h5>' +
               '<p class="card-text">' + event_description + '</p>' +
             '</div>' +
           '</div>' +
           '<ul class="list-group list-group-flush">' +
-            '<li class="list-group-item"><i class="far fa-calendar-alt"></i> ' + event_date + '</li>' +
+            '<li class="list-group-item"><i class="far fa-calendar-alt"></i> ' + event_date[2] + '-' + event_date[1] + '-' + event_date[0] + '</li>' +
             '<li class="list-group-item"><i class="fas fa-user"></i> Cantidad de personas que asisitieron</li>' +
-            '<li class="list-group-item"><i class="fas fa-map-marker-alt"></i> ' + event_addres +' </li>' +
+            '<li class="list-group-item"><i class="fas fa-map-marker-alt mr-1"></i> ' + event_addres +' </li>' +
           '</ul>' +
           '<div class="bodyCard" id="bodyCard-' + event_id + '">' +
             '<div class="card-body">' +

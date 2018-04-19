@@ -75,20 +75,6 @@ $result = mysqli_query($conn, $sql);
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_add_event">
     Open modal
   </button>
-    <button type="button" onclick="trySwalForm()" name="button">Try Swal Form</button>
-    <!-- From to register events -->
-    <!-- <form class="w3-container" id="formRegister" method="post" action="modals/registerEvent.php">
-      <label>Nombre</label>
-      <input class="w3-input" id="event_name" name="event_name" type="text">
-      <input class="w3-input" id="event_description" name="event_description" type="text" placeholder="Descripción">
-      <input class="w3-input" id="event_date" name="event_date" type="date">
-      <input class="w3-input" id="event_addres" name="event_addres" type="text" placeholder="Address">
-      <input class="w3-input" id="event_photo" name="event_photo" type="text"> -->
-
-      <!-- <button type="submit" class="w3-btn w3-blue" id="btnRegister">Registrar</button> -->
-      <!-- <span class="message" id="message" ></span> -->
-    <!-- </form> -->
-
 
     <!-- Card template -->
       <div class="container">
@@ -98,7 +84,7 @@ $result = mysqli_query($conn, $sql);
               ?>
         			<div class="card d-inline-block col-xs-10 col-sm-6 col-md-4 mb-5" id="card-<?= $row["events_id"];?>">
                 <div class="imgTxtCard" id="imgTxtCard-<?= $row["events_id"];?>">
-                  <img class="card-img-top" src="https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350" alt="Card image cap">
+                  <img class="card-img-top" src="<?=$row["events_photo"];?>" alt="Error al cargar la foto :(">
           			  <div class="card-body">
           			    <h5 class="card-title"><?= $row["events_name"];?></h5>
           			    <p class="card-text"><?= $row["events_description"];?></p>
@@ -177,10 +163,10 @@ $result = mysqli_query($conn, $sql);
             </div>
             <div class="form-group">
               <label for="lbl_photo">Foto de portada</label>
-              <input class="form-control" id="event_photo" name="event_photo" type="text">
+              <input class="form-control" id="event_photo" name="event_photo" type="text" placeholder="Aquí debe ingresar el link de la imagen">
             </div>
             <div class="form-group">
-              <span class="message" id="message" ></span>
+              <span class="message" id="message"></span>
             </div>
             <div class="button_padding_border">
               <button type="button" class="btn btn-danger float-right ml-3" data-dismiss="modal">Cancelar</button>
@@ -207,7 +193,7 @@ $result = mysqli_query($conn, $sql);
 
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWpmAbOVY_rcoj8AWjDnd27k6Cn-fLXq4&callback=myMap"></script> -->
 
-    <script src="http://localhost:35729/livereload.js"></script>
+    <!-- <script src="http://localhost:35729/livereload.js"></script> -->
     <!-- BORRAR LIVE RELOAD - VER URGENTE -->
   </body>
 </html>
