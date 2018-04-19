@@ -1,3 +1,4 @@
+// START PART TO EVENTS
 function register_event(e){
     e.preventDefault();
     var action =  $(this).parent().attr('action');
@@ -154,7 +155,7 @@ function informationDeleteEvent(id){
 
   swal({
     title: 'Probable error...',
-    text: "El error problablemente sea que el evento que desea borrar tenga asociados usuarios que fueron a este evento. Pero usted igual puede forzar la eliminación, tras forzar la eliminación también se borrarán los usuarios asociados a este evento",
+    text: "El error problablemente sea que el evento que desea borrar tenga asociados usuarios que fueron a este evento. Pero usted igual puede forzar la eliminación, tras forzar la eliminación se borrarán todos los datos de este evento",
     type: 'warning',
     showCancelButton: true,
     cancelButtonText: 'Ok, muchas gracias &#x1F44D',
@@ -199,3 +200,28 @@ function informationDeleteEvent(id){
     }
   })
 }
+
+
+// START PART TO USERS
+function registrer_user(e){
+  e.preventDefault();
+  var action =  $(this).parent().attr('action');
+  $.ajax({
+    url: action,
+    method: 'POST',
+    data: $('#formRegistro').serialize(),
+    dataType: "json",
+    success: function(response){
+      $('#message').html(response.message);
+
+      if (response.status) {
+        $('form input').val('');
+        $('#events_id').val(response.events_id);
+      }
+    },
+    error: function (response){
+      console.log(response);
+    }
+  });
+
+};
