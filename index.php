@@ -113,7 +113,10 @@ $result = mysqli_query($conn, $sql);
                       <input type="hidden" name="events_id" value="<?= $row["events_id"];?>">
                       <button type="submit" class="btn btn-primary ml-4 float-right float-bottom mb-3"><i class="fas fa-arrow-right"></i></button>
                     </form>
-                    <button type="button" class="btn btn-success float-right float-bottom ml-4 mb-4"><i class="fas fa-file-excel"></i> Excel</i></button>
+                    <form class="" action="modals/toExcel.php" method="post">
+                      <input type="hidden" name="event_id" value="<?= $row["events_id"]?>">
+                      <button type="submit" class="btn btn-success float-right float-bottom ml-4 mb-4"><i class="fas fa-file-excel"></i> Excel</i></button>
+                    </form>
 
                     <form class="w3-container formDelete" id="formDelete-<?= $row["events_id"];?>" method="post" action="modals/deleteEvent.php">
                       <input type="hidden" name="events_id" value="<?= $row["events_id"];?>">

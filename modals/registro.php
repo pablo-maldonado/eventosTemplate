@@ -31,9 +31,9 @@ if (!filter_input(INPUT_GET, "email", FILTER_VALIDATE_EMAIL) === false) {
  		echo json_encode($response);
 		die();
 	}
-	$sql = "INSERT INTO user_(user_name, user_surname, user_email, user_company, user_birthdate) VALUES ('$name', '$surname', '$mail', '$empresa', STR_TO_DATE('$birthdate', '%Y-%m-%d'))";
+	$sql = "INSERT INTO user_(user_name, user_surname, user_email, user_company, user_birthdate) VALUES ('$name', '$surname', '$email', '$empresa', STR_TO_DATE('$birthdate', '%Y-%m-%d'))";
 	$result = mysqli_query($conn, $sql);
-	$sql2=	"INSERT INTO user_event(events_id, user_email) VALUES ($events_id, '$mail')";
+	$sql2=	"INSERT INTO user_event(events_id, user_email) VALUES ($events_id, '$email')";
 	$result2 = mysqli_query($conn, $sql2);
 
 	// mysqli_set_charset($conn, "utf8");
