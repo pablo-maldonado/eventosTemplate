@@ -1,19 +1,40 @@
 <?php
 //Exportar datos de php a Excel
+REQUIRE("conexion.php");
+if (isset($_POST["all_users"])) {
+  $sql = "SELECT user_.user_name, user_.user_surname, user_.user_email, user_.user_company, user_birthdate FROM user_";
+  $result = mysqli_query($conn, $sql);
+  $event_name = "Registro de usarios en eventos - Arkano";
+  $title = "Personas que asistieron a los eventos";
+}else {
+  $event_id = $_POST["event_id"];
+  $sqlName = "SELECT events_name FROM events_ WHERE events_id = $event_id";
+  $resultName = mysqli_query($conn, $sqlName);
+  if ($resultName) {
+    while ($row_name = mysqli_fetch_array($resultName)) {
+      $event_name = "Evento " . $row_name["events_name"];
+      $title = $event_name;
+    }
+  }else {
+    $event_name = "Error";
+    $title = "Error";
+  }
+
+  $sql = "SELECT user_.user_name, user_.user_surname, user_.user_email, user_.user_company, events_name FROM user_event INNER JOIN user_ ON user_.user_email = user_event.user_email INNER JOIN events_ ON events_.events_id = user_event.events_id WHERE events_.events_id=$event_id";
+  $result = mysqli_query($conn, $sql);
+}
+
 header("Content-Type: application/vnd.ms-excel");
 header("Expires: 0");
 header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-header("content-disposition: attachment;filename=Reportes.xls");
-
-REQUIRE("conexion.php");
-$event_id = $_POST["event_id"];
+header("content-disposition: attachment;filename=$event_name.xls");
 
 ?>
 <!DOCTYPE html>
 <html>
     <head>
       <meta charset="utf-8">
-      <title>To Excel</title>
+      <title>Descargando Excel</title>
       <style>
       table {
         font-family: arial, sans-serif;
@@ -35,18 +56,14 @@ $event_id = $_POST["event_id"];
     </head>
   <body>
 
-    <?php
-    $sql = "SELECT user_.user_name, user_.user_surname, user_.user_email, user_.user_company, events_name FROM user_event INNER JOIN user_ ON user_.user_email = user_event.user_email INNER JOIN events_ ON events_.events_id = user_event.events_id WHERE events_.events_id=$event_id";
-    $result = mysqli_query($conn, $sql);
-    ?>
-    <h2>Personas registradas en eventos</h2>
+    <h2><?=$title . " - Arkano";?></h2>
 
     <table>
       <tr>
-        <th>Nombre y Apellido</td>
-        <th>Mail</td>
-        <th>Empresa</td>
-        <th>Evento al que asistió</td>
+        <th><b>Nombre</b></td>
+        <th><b>Mail</b></td>
+        <th><b>Empresa</b></td>
+        <th><b>Evento al que asistió</b></td>
       </tr>
         <?php
         while ($row = mysqli_fetch_array($result)) {
@@ -55,11 +72,21 @@ $event_id = $_POST["event_id"];
             <td><?= $row["user_name"] . " " . $row["user_surname"];?></td>
             <td><?= $row["user_email"];?></td>
             <td><?= $row["user_company"];?></td>
+            <?php
+            if (!isset($_POST["all_users"])) {
+            ?>
             <td><?= $row["events_name"];?></td>
+            <?php
+            }else {
+            ?>
+            <td><?= $row["user_birthdate"];?></td>
+            <?php
+            }
+            ?>
           </tr>
-        <?php
-        }
-        ?>
+      <?php
+      }
+      ?>
     </table>
         <?php
         mysqli_free_result($result);

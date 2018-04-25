@@ -36,12 +36,13 @@ if (!filter_input(INPUT_GET, "email", FILTER_VALIDATE_EMAIL) === false) {
 	$sql2=	"INSERT INTO user_event(events_id, user_email) VALUES ($events_id, '$email')";
 	$result2 = mysqli_query($conn, $sql2);
 
-	// mysqli_set_charset($conn, "utf8");
-
 	if ($result&&$result2) {
 		$response['status'] = true;
 		$response['message'] = "Se ha registrado a $name $surname correctamente.";
 		$response['events_id'] = $events_id;
+	}elseif (!$result && $result2) {
+		$response['status'] = true;
+		$response['message'] = "Se registro a " . $name . ". Muchas gracias";
 	}
 	elseif (!$result2){
 		$response['message'] = "Este mail ya está registrado";
