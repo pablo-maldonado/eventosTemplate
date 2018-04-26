@@ -18,6 +18,8 @@ $result = mysqli_query($conn, $sql);
     <meta http-equiv="Content-Language" content="es">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Font Montserrat -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700" rel="stylesheet">
     <!-- Bootstrap cdn -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
@@ -62,7 +64,7 @@ $result = mysqli_query($conn, $sql);
   </head>
   <body>
 
-    <h1 class="text-center">Eventos - Arkano</h1>
+    <h1 class="text-center" id="idTitle">EVENTOS - ARKANO</h1>
     <button onclick="notifyMe()">Notify me!</button>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_add_event">
     Add Event

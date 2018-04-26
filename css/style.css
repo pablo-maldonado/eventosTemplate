@@ -15,15 +15,13 @@
 }
 .card-add{
 	transform: scale(0);
-	/* transition: 0.8s; */
 }
 
 .button_padding_border{
 	padding-top: 1rem;
 	border-top: 1px solid #e9ecef;
 }
-/* @media (min-width: 576px){
-	.cardPadding{
-		max-width: 33.333333%;
-	}
-} */
+
+#idTitle{
+	font-family: 'Montserrat', sans-serif;
+}
