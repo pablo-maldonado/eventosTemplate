@@ -25,3 +25,11 @@
 #idTitle{
 	font-family: 'Montserrat', sans-serif;
 }
+
+.menu {
+    background-color: #3f966f;
+    height: 40px;
+}
+.img-responsive-logo {
+	 max-width: 120px;
+}

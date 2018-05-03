@@ -32,7 +32,6 @@
 
 	if ($result && $resultDeleteRow) {
 		$response['status'] = true;
-		$response['message'] = "Se ha eliminado el evento $events_id correctamente";
 		$response['event_name'] = $event_name;
 	}
 
