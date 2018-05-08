@@ -1,6 +1,6 @@
-#registroID{
-	font-family: 'Roboto', sans-serif;
-	font-size: 35px;
+#title{
+	font-family: 'Merriweather', serif;
+	font-size: 55px;
 }
 .card{
 	border: 0px solid rgba(0,0,0,.125);
@@ -32,4 +32,15 @@
 }
 .img-responsive-logo {
 	 max-width: 120px;
+}
+.btn_download_users{
+	background-color: transparent;
+	border: none;
+}
+.btn_download_users:focus {
+	outline:0;
+}
+
+.message-red{
+	color: red !important;
 }

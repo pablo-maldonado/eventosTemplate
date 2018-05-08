@@ -36,6 +36,9 @@ $result = mysqli_query($conn, $sql);
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 
+    <!-- Font google Merriweather -->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+
     <!-- Link to js (message) -->
     <script src="js/message.js"></script>
 
@@ -53,13 +56,6 @@ $result = mysqli_query($conn, $sql);
         }
 
       );
-
-        $(document).on('dblclick', '.imgTxtCard', function(e){
-        alert( "Hello World!" );
-      });
-
-      // $(document).on('click', '#alertTest', swal);
-
     </script>
 
     <link rel="stylesheet" href="css/style.css">
@@ -73,8 +69,18 @@ $result = mysqli_query($conn, $sql);
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link active mt-2" href="#">Añadir evento <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link mt-2" href="#">Descargar excel de ususarios</a>
+
+          <button type="button" class="nav-item nav-link mt-2 ml-2 btn_download_users" data-toggle="modal" data-target="#modal_add_event">
+          <i class="fas fa-plus"></i> Añadir evento
+          </button>
+
+          <!-- <a class="nav-item nav-link active mt-2" href="#">Añadir evento <span class="sr-only">(current)</span></a> -->
+          <!-- <a class="nav-item nav-link mt-2" href="#">Descargar excel de usuarios</a> -->
+
+          <form class="" action="modals/toExcel.php" method="post">
+            <input type="hidden" name="all_users" value="1">
+            <button type="submit" class="nav-item nav-link mt-2 btn_download_users"><i class="fas fa-file-excel"></i> Descargar Excel de usuarios</button>
+          </form>
         </div>
       </div>
     </nav>
@@ -83,11 +89,8 @@ $result = mysqli_query($conn, $sql);
       <input type="text" name="busqueda" placeholder="Ingrese nombre de persona a buscar">
       <button type="submit">Buscar</button>
     </form> -->
-    <h1 class="text-center">Eventos - Arkano</h1>
-    <button onclick="notifyMe()">Notify me!</button>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_add_event">
-    Open modal
-  </button>
+    <h1 id="title" class="text-center mt-4 mb-4">Eventos - Arkano</h1>
+
 
     <!-- Card template -->
       <div class="container">

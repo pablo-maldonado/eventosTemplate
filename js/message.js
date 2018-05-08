@@ -8,8 +8,9 @@ function register_event(e){
       data: $('#formRegister').serialize(),
       dataType: "json",
       success: function(response){
-      $('#message').html(response.message);
       if (response.status) {
+        $('#message').html('');
+        $('#message').addClass('message-green')
         var event_name = $('#event_name').val();
         var event_id = response.events_id;
 
@@ -74,8 +75,11 @@ function register_event(e){
         }, 100);
 
         //Reset the values inside the form
-        $('#event_name').val('');
-        // $("#formDelete-"+event_id).find('#events_id').val(event_id); -- I don't remember this line, and i think is unnecessary
+        $('#formRegister').trigger("reset");
+
+      }else {
+        $('#message').html(response.message);
+        $('#message').addClass('message-red');
       }
       },
       error: function (response){
