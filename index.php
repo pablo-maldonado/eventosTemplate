@@ -19,6 +19,10 @@ $result = mysqli_query($conn, $sql);
     <meta http-equiv="Content-Language" content="es">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Arkano Icon -->
+    <link rel="icon" href="https://www.arkanosoft.com/wp-content/uploads/2016/03/favicon.ico">
+
     <!-- Bootstrap cdn -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
