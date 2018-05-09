@@ -107,10 +107,10 @@ function delete_event(e){
       text: "Chan chan chaann...!",
       type: 'warning',
       showCancelButton: true,
-      cancelButtonText: 'No, mejor no &#x1F600',
+      cancelButtonText: 'No, mejor no',
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, hagámoslo &#x1F631'
+      confirmButtonText: 'Sí, hagámoslo'
     }).then((result) => {
       if (result.value) {
         $.ajax({

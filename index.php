@@ -49,6 +49,8 @@ $result = mysqli_query($conn, $sql);
       $(document).on('click', '#btnRegister', register_event);
       $(document).on('click', '.btnDelete', delete_event);
       $(document).on('click', '.imgTxtCard', slideBodyCard);
+
+
       $(document).on('click', 'body', function(e){
         if (e.target.nodeName == "BODY"){
           $(".bodyCard").slideUp(520);
@@ -56,6 +58,7 @@ $result = mysqli_query($conn, $sql);
         }
 
       );
+
     </script>
 
     <link rel="stylesheet" href="css/style.css">
@@ -177,11 +180,11 @@ $result = mysqli_query($conn, $sql);
             </div>
             <div class="form-group">
               <label for="lbl_addres">Dirección</label>
-              <!-- <div id="googleMap" style="width:100%;height:400px;"></div> -->
-              <input class="form-control" id="event_addres" name="event_addres" type="text" placeholder="Address">
+              <div id="googleMap" style="width:100%;height:250px;"></div>
+              <input class="form-control mt-2" id="event_addres" name="event_addres" type="text" placeholder="Address">
             </div>
             <div class="form-group">
-              <label for="lbl_photo">Foto de portada</label>
+              <label for="lbl_photo">Foto de portada <a href="./img/tuto_photo.png" target="_blank"><i id="question-photo" class="far fa-question-circle" title="Click para ver ayuda"></i></a></label>
               <input class="form-control" id="event_photo" name="event_photo" type="text" placeholder="Aquí debe ingresar el link de la imagen">
             </div>
             <div class="form-group">
@@ -193,24 +196,61 @@ $result = mysqli_query($conn, $sql);
             <button type="submit" class="btn btn-success float-right" id="btnRegister">Registrar</button>
           </form>
         </div>
-        <!-- <div class="modal-footer">
-          <p>Hola</p>
-        </div> -->
       </div>
     </div>
   </div>
+  <span id="showWalls"></span>
 
-    <!-- <script>
+  </div>
+    <script>
       function myMap() {
-      var mapProp= {
-        center:new google.maps.LatLng(-34.8948770197085,-56.1487440197085),
-        zoom:12,
-      };
-      var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-      }
-    </script> -->
+        var mapProp= {
+          center:new google.maps.LatLng(-34.8948770197085,-56.1487440197085),
+          zoom:12,
+        };
 
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWpmAbOVY_rcoj8AWjDnd27k6Cn-fLXq4&callback=myMap"></script> -->
+        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+        google.maps.event.addListener(map, 'click', function(event) {
+          marker = new google.maps.Marker({position: event.latLng, map: map});
+          geocodeLatLng(geocoder, map, infowindow, event.latLng);
+
+        });
+        var geocoder = new google.maps.Geocoder;
+        var infowindow = new google.maps.InfoWindow;
+
+
+      }
+
+      function geocodeLatLng(geocoder, map, infowindow, inLatLng) {
+       var latlng = inLatLng;
+       geocoder.geocode({'location': latlng}, function(results, status) {
+         if (status === 'OK') {
+           if (results[1]) {
+             map.setZoom(15);
+             var marker = new google.maps.Marker({
+               position: latlng,
+               map: map
+             });
+             infowindow.setContent(results[0].formatted_address);
+             infowindow.open(map, marker);
+             showInAddress(results[0].formatted_address);
+           } else {
+             window.alert('No results found');
+           }
+         } else {
+           window.alert('Geocoder failed due to: ' + status);
+         }
+       });
+     }
+
+
+      function showInAddress(text){
+      $('#event_addres').val(text);
+      }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWpmAbOVY_rcoj8AWjDnd27k6Cn-fLXq4&callback=myMap"></script>
 
     <!-- <script src="http://localhost:35729/livereload.js"></script> -->
     <!-- BORRAR LIVE RELOAD - VER URGENTE -->
