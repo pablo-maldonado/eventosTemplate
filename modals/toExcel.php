@@ -20,7 +20,7 @@ if (isset($_POST["all_users"])) {
     $title = "Error";
   }
 
-  $sql = "SELECT user_.user_name, user_.user_surname, user_.user_email, user_.user_company, events_name FROM user_event INNER JOIN user_ ON user_.user_email = user_event.user_email INNER JOIN events_ ON events_.events_id = user_event.events_id WHERE events_.events_id=$event_id";
+  $sql = "SELECT user_.user_name, user_.user_surname, user_.user_email, user_.user_company, user_birthdate, events_name FROM user_event INNER JOIN user_ ON user_.user_email = user_event.user_email INNER JOIN events_ ON events_.events_id = user_event.events_id WHERE events_.events_id=$event_id";
   $result = mysqli_query($conn, $sql);
 }
 
@@ -62,8 +62,8 @@ header("content-disposition: attachment;filename=$event_name.xls");
       <tr>
         <th><b>Nombre</b></td>
         <th><b>Mail</b></td>
-        <th><b>Empresa</b></td>
-        <th><b>Evento al que asistió</b></td>
+        <th><b>Empresa/Institución</b></td>
+        <th><b>Fecha de nacimiento</b></td>
       </tr>
         <?php
         while ($row = mysqli_fetch_array($result)) {
@@ -75,7 +75,7 @@ header("content-disposition: attachment;filename=$event_name.xls");
             <?php
             if (!isset($_POST["all_users"])) {
             ?>
-            <td><?= $row["events_name"];?></td>
+            <td><?= $row["user_birthdate"];?></td>
             <?php
             }else {
             ?>
