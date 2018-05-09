@@ -7,6 +7,9 @@
 	$empresa = $_POST["empresa"];
 	$birthdate = $_POST["birthdate"];
 	$events_id = $_POST["events_id"];
+	$maxDate = date("Y-m-d", strtotime('-8 year'));
+
+
 
 
 	$response = array('status'=>false, 'message'=>"nada tipo literal", 'events_id'=>-1);
@@ -21,16 +24,22 @@
  		echo json_encode($response);
 		die();
 	}
-if (!filter_input(INPUT_GET, "email", FILTER_VALIDATE_EMAIL) === false) {
-		$response['message'] = 'Debes ingresar un mail válido';
- 		echo json_encode($response);
-		die();
-	}
-	if (empty($birthdate)) {
+	if (empty($email) || (!filter_var($email, FILTER_VALIDATE_EMAIL))) {
+	    $response['message'] = 'Debes ingresar un e-mail válido';
+			echo json_encode($response);
+			die();
+	  }
+	if (empty($birthdate))
+	{
 		$response['message'] = 'Debes ingresar tu fecha de nacimiento';
  		echo json_encode($response);
 		die();
 	}
+	if ($maxDate < $birthdate)	{
+		$response['message'] = 'La fecha de nacimiento ingresada no es válida, por favor digitela denuevo';
+ 		echo json_encode($response);
+		die();
+}
 	$sql = "INSERT INTO user_(user_name, user_surname, user_email, user_company, user_birthdate) VALUES ('$name', '$surname', '$email', '$empresa', STR_TO_DATE('$birthdate', '%Y-%m-%d'))";
 	$result = mysqli_query($conn, $sql);
 	$sql2=	"INSERT INTO user_event(events_id, user_email) VALUES ($events_id, '$email')";
@@ -40,6 +49,7 @@ if (!filter_input(INPUT_GET, "email", FILTER_VALIDATE_EMAIL) === false) {
 		$response['status'] = true;
 		$response['message'] = "Se ha registrado a $name $surname correctamente.";
 		$response['events_id'] = $events_id;
+
 	}elseif (!$result && $result2) {
 		$response['status'] = true;
 		$response['message'] = "Se registro a " . $name . ". Muchas gracias";

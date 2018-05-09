@@ -1,6 +1,7 @@
 <?php
   REQUIRE("conexion.php");
   $events_id=$_POST['events_id'];
+
  ?>
 
 <!DOCTYPE html>
@@ -28,7 +29,7 @@
   <body style="background-image:url(../img/arkano_fondo_chiquito.png)">
       <div class="w3-content" style="max-width: 750px;margin-top: 90px;">
 
-        <form class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin" id="formRegistro" method="post" action="registro.php" >
+        <form class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-animate-bottom" id="formRegistro" method="post" action="registro.php" >
       <h2 class="w3-center">Registro Arkano</h2>
 
         <div class="w3-row w3-section">
@@ -60,13 +61,15 @@
         </div>
 
       <p>
-      <label style="padding-bottm:5px;">Fecha de nacimiento</label>
-      <input class="w3-input w3-border" name="birthdate" type="date" value="2000-01-01" max="2017-12-31"></p>
-      <input id="events_id" type="hidden" name="events_id" value="<?= $events_id?>">
+        <label style="padding-bottm:5px;">Fecha de nacimiento</label>
+        <input class="w3-input w3-border" id="birthdate" name="birthdate" type="date" value="<?php echo date("Y-m-d", strtotime('-18 year')); ?>" max="<?php echo date("Y-m-d", strtotime('-8 year')) ?>"></p>
+
+        <input id="events_id" type="hidden" name="events_id" value="<?= $events_id?>">
 
       <button type="submit" class="w3-btn w3-block w3-section w3-blue w3-ripple w3-padding" id="btnRegistro" style="margin-bottom : 5px;">Registrar</button>
 
     </form>
+
 
 
   <img src="../img/logoArkanoBlanco.png" style="max-width: 20%;  height: auto;  position: absolute;    bottom: 8px;    left: 16px; z-index:-1 ;">
