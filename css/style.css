@@ -1,10 +1,10 @@
-#registroID{
-	font-family: 'Roboto', sans-serif;
-	font-size: 35px;
+#title{
+	font-family: 'Merriweather', serif;
+	font-size: 55px;
 }
 .card{
 	border: 0px solid rgba(0,0,0,.125);
-	transition: 0.9s;
+	transition: 0.7s;
 }
 .card:hover {
   transform: scale(1.05,1.05);
@@ -13,9 +13,34 @@
 .bodyCard{
 	display: none;
 }
+.card-add{
+	transform: scale(0);
+}
 
-/* @media (min-width: 576px){
-	.cardPadding{
-		max-width: 33.333333%;
-	}
-} */
+.button_padding_border{
+	padding-top: 1rem;
+	border-top: 1px solid #e9ecef;
+}
+
+#idTitle{
+	font-family: 'Montserrat', sans-serif;
+}
+
+.menu {
+    background-color: #3f966f;
+    height: 40px;
+}
+.img-responsive-logo {
+	 max-width: 120px;
+}
+.btn_download_users{
+	background-color: transparent;
+	border: none;
+}
+.btn_download_users:focus {
+	outline:0;
+}
+
+.message-red{
+	color: red !important;
+}

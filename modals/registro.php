@@ -1,13 +1,18 @@
 <?php
 	REQUIRE("conexion.php");
+	header("Content-Type: text/html;charset=utf-8");
 	$name = $_POST["nombre"];
 	$surname = $_POST["apellido"];
-	$mail = $_POST["email"];
+	$email = $_POST["email"];
 	$empresa = $_POST["empresa"];
 	$birthdate = $_POST["birthdate"];
 	$events_id = $_POST["events_id"];
+	$maxDate = date("Y-m-d", strtotime('-8 year'));
 
-	$response = array('status'=>false, 'message'=>"nada tipo literal");
+
+
+
+	$response = array('status'=>false, 'message'=>"nada tipo literal", 'events_id'=>-1);
 
 	if (empty($name)) {
 		$response['message'] = 'Debes ingresar nombre';
@@ -19,31 +24,40 @@
  		echo json_encode($response);
 		die();
 	}
-	if (empty($mail)) {
-		$response['message'] = 'Debes ingresar mail';
- 		echo json_encode($response);
-		die();
-	}
-	if (empty($birthdate)) {
+	if (empty($email) || (!filter_var($email, FILTER_VALIDATE_EMAIL))) {
+	    $response['message'] = 'Debes ingresar un e-mail válido';
+			echo json_encode($response);
+			die();
+	  }
+	if (empty($birthdate))
+	{
 		$response['message'] = 'Debes ingresar tu fecha de nacimiento';
  		echo json_encode($response);
 		die();
 	}
-	$sql = "INSERT INTO user_(user_name, user_surname, user_email, user_company, user_birthdate) VALUES ('$name', '$surname', '$mail', '$empresa', STR_TO_DATE('$birthdate', '%Y-%m-%d'))";
+	if ($maxDate < $birthdate)	{
+		$response['message'] = 'La fecha de nacimiento ingresada no es válida, por favor digitela denuevo';
+ 		echo json_encode($response);
+		die();
+}
+	$sql = "INSERT INTO user_(user_name, user_surname, user_email, user_company, user_birthdate) VALUES ('$name', '$surname', '$email', '$empresa', STR_TO_DATE('$birthdate', '%Y-%m-%d'))";
 	$result = mysqli_query($conn, $sql);
+	$sql2=	"INSERT INTO user_event(events_id, user_email) VALUES ($events_id, '$email')";
+	$result2 = mysqli_query($conn, $sql2);
 
-	 $sql2=	"INSERT INTO user_event(events_id, user_email) VALUES ($events_id, '$mail')";
-	 $result2 = mysqli_query($conn, $sql2);
-
-	// mysqli_set_charset($conn, "utf8");
-
-	if ($result) {
+	if ($result&&$result2) {
 		$response['status'] = true;
 		$response['message'] = "Se ha registrado a $name $surname correctamente.";
+		$response['events_id'] = $events_id;
+
+	}elseif (!$result && $result2) {
+		$response['status'] = true;
+		$response['message'] = "Se registro a " . $name . ". Muchas gracias";
 	}
-	
-
-
+	elseif (!$result2){
+		$response['message'] = "Este mail ya está registrado";
+	}
 
  	echo json_encode($response);
 	die();
+	?>
