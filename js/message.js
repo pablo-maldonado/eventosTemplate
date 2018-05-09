@@ -225,8 +225,22 @@ function registrer_user(e){
           title: 'Iupi!',
           text: response.message,
           showConfirmButton: false,
-          timer: 1500
+          timer: 2000
+
         })
+        var dt = new Date($.now());
+        var month = dt.getUTCMonth() + 1; //months from 1-12
+        var day = dt.getUTCDate();
+        var year = dt.getUTCFullYear();
+        year-=18;
+        if(day<10){
+            day='0'+day;
+        }
+        if(month<10){
+            month='0'+month;
+        }
+        var newdate = year + "-" + month + "-" + day;
+        $('#birthdate').val(newdate);
       }
       else {
         swal({
@@ -234,7 +248,7 @@ function registrer_user(e){
           title: 'Error!',
           text: response.message,
           showConfirmButton: false,
-          timer: 1500
+          timer: 2000
         })
       }
     },
