@@ -92,7 +92,7 @@ $result = mysqli_query($conn, $sql);
       </div>
     </nav>
 
-    <h1 id="title" class="text-center mt-4 mb-4">Eventos - Arkano</h1>
+    <h1 id="title" class="text-center mt-5 mb-5">Eventos - Arkano</h1>
 
     <!-- Card template -->
       <div class="container">
